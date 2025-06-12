@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="weatherData"
+            type="com.karapetyan.weather.data.network.model.WeatherData" />
+        <variable
+            name="dateUtils"
+            type="com.karapetyan.weather.utils.DateUtils" />
+        <variable
+            name="mathFunctions"
+            type="com.karapetyan.weather.utils.MathFunctions" />
+        <variable
+            name="currentTime"
+            type="java.text.DateFormat" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_background">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextClock
+                android:id="@+id/time_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:format12Hour="@null"
+                android:format24Hour="EEEE, MMMM dd, yyyy h:mmaa"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:timeZone="AM" />
+
+<!--            android:text="@{dateUtils.calcCurrentTimeWithTimeZone(weatherData.timezone)}"-->
+
+            <TextView
+                android:id="@+id/city_name_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/time_tv"
+                android:layout_toStartOf="@+id/degress_tv"
+                android:fontFamily="@font/roboto_medium"
+                android:text="@{weatherData.name}"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                tools:text="Yerevan" />
+
+            <TextView
+                android:id="@+id/degress_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/time_tv"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_light"
+                android:includeFontPadding="false"
+                android:text="@{mathFunctions.roundNumber(weatherData.main.temp) + @string/degress_symbol_code_with_celsius}"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/white"
+                android:textSize="40sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>
