@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.4850455136540962" />
+        <entry key="app/src/main/res/layout/city_list_adapter_item.xml" value="0.3734375" />
+        <entry key="app/src/main/res/layout/search_fragment.xml" value="0.29444444444444445" />
+        <entry key="app/src/main/res/layout/search_view.xml" value="0.2808155699721965" />
+        <entry key="app/src/main/res/layout/weather_city_fragment.xml" value="0.29444444444444445" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="jbr-21" project-jdk-type="JavaSDK" />
+</project>

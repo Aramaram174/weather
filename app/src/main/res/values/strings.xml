@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Weather</string>
+
+    <string name="search">Search</string>
+    <string name="cancel">Cancel</string>
+    <string name="search_title_hint">Enter city</string>
+    <string name="degress_symbol_code">\u00B0</string>
+    <string name="degress_symbol_code_with_fahrenheit">\u2109</string>
+    <string name="degress_symbol_code_with_celsius">\u2103</string>
+    <string name="today">TODAY</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="visibility">Visibility</string>
+    <string name="humidity">Humidity</string>
+    <string name="wind">Wind</string>
+    <string name="clouds">Clouds</string>
+    <string name="feels_like">Feels Like</string>
+    <string name="precipitation">Precipitation</string>
+    <string name="pressure">Pressure (hPa)</string>
+    <string name="km">km</string>
+    <string name="cm">cm</string>
+    <string name="km_hour">km/h</string>
+    <string name="max">Max</string>
+    <string name="min">Min</string>
+    <string name="internet_connection">Please check your internet connection and reopen the app</string>
+</resources>
