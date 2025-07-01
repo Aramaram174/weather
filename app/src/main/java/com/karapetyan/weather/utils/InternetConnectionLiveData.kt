@@ -25,13 +25,7 @@ class InternetConnectionLiveData(private val context: Context) : LiveData<Boolea
     override fun onActive() {
         super.onActive()
         updateConnection()
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(networkCallback)
-        } else {
-            val networkRequest = NetworkRequest.Builder().build()
-            connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-        }
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
     }
 
     override fun onInactive() {
