@@ -1,13 +1,13 @@
 package com.karapetyan.weather.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.karapetyan.weather.data.network.model.WeatherData
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(weatherData: WeatherData)
+    fun insertWeatherData(weatherData: WeatherData)
 
     @Update
     fun update(weatherData: WeatherData)
@@ -16,14 +16,11 @@ interface WeatherDao {
     fun delete(nameCity: String)
 
     @Query("SELECT * FROM weatherData")
-    fun getAll(): LiveData<MutableList<WeatherData>>
+    fun getAllCities(): Flow<List<WeatherData>>
 
     @Query("SELECT name FROM weatherData")
     fun getAllCityNames(): List<String>
 
     @Query("SELECT * FROM weatherData WHERE name = :nameCity")
-    fun getCity(nameCity: String?): LiveData<WeatherData>
-
-    @Query("SELECT count(*) FROM weatherData")
-    fun getCount(): LiveData<Int>
+    fun getWeatherData(nameCity: String?): Flow<WeatherData>
 }

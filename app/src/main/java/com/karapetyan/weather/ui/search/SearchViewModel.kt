@@ -1,5 +1,6 @@
 package com.karapetyan.weather.ui.search
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,25 +21,29 @@ class SearchViewModel(
     override val coroutineContext: CoroutineContext = Dispatchers.Main
 
     private var currentCity = WeatherData()
-    private val _currentCityName: MutableLiveData<String> = MutableLiveData()
-    val currentCityName: MutableLiveData<String>
-        get() = _currentCityName
+
+    private val _currentCityName = MutableLiveData<String>()
+    val currentCityName: LiveData<String> = _currentCityName
 
     fun searchCity(text: String) {
         viewModelScope.launch {
             when (val result = networkRepository.getWeatherData(text)) {
                 is Result.Success -> {
                     currentCity = result.data
-                    currentCityName.postValue(currentCity.name)
+                    _currentCityName.postValue(currentCity.name)
                 }
                 is Result.Error -> {
-                    currentCityName.postValue(null)
+                    _currentCityName.postValue("")
                 }
             }
         }
     }
 
-    suspend fun insertSelectedCityToDb() {
-        repositoryRoom.saveCity(currentCity)
+    fun setCityName(cityName: String) {
+        _currentCityName.value = cityName
+    }
+
+    fun insertSelectedCityToDb() {
+        repositoryRoom.insertWeatherData(currentCity)
     }
 }

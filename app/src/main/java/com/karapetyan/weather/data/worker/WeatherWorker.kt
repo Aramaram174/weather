@@ -1,7 +1,6 @@
 package com.karapetyan.weather.data.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
@@ -15,10 +14,6 @@ import com.karapetyan.weather.data.repository.Result
 class WeatherWorker(context: Context, workerParams: WorkerParameters,
                        private val networkRepository: NetworkRepository,
                        private val repositoryRoom: WeatherRepositoryRoom) : CoroutineWorker(context, workerParams) {
-
-    init {
-        Log.d("KARAPETYAN", "WeatherWorker: constructor called")
-    }
 
     override suspend fun doWork(): Result {
         return try {
@@ -41,7 +36,6 @@ class WeatherWorker(context: Context, workerParams: WorkerParameters,
             Result.success()
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.e("KARAPETYAN", "doWork ERROR", e)
             Result.retry()
         }
     }

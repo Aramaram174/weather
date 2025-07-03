@@ -20,7 +20,7 @@ data class WeatherData(
     @Embedded
     var coord: Coord,
     @Expose
-    var dt: Int,
+    var dt: Long,
     @Expose
     var id: Int,
     @Embedded
@@ -31,7 +31,7 @@ data class WeatherData(
     @Embedded
     var sys: Sys,
     @Expose
-    var timezone: Int,
+    var timezone: Long,
     @Expose
     var visibility: Int,
     @Expose

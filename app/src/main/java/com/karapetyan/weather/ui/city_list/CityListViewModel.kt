@@ -1,27 +1,26 @@
 package com.karapetyan.weather.ui.city_list
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.karapetyan.weather.data.repository.WeatherRepositoryRoom
+import androidx.lifecycle.viewModelScope
 import com.karapetyan.weather.data.network.model.WeatherData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlin.coroutines.CoroutineContext
+import com.karapetyan.weather.data.repository.WeatherRepositoryRoom
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class CityListViewModel(private val repositoryRoom: WeatherRepositoryRoom) : ViewModel(),
-    CoroutineScope {
+class CityListViewModel(private val repositoryRoom: WeatherRepositoryRoom) : ViewModel() {
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
+    val cityList: StateFlow<List<WeatherData>> = repositoryRoom.getAllCities()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
-    suspend fun getAllCities(): LiveData<MutableList<WeatherData>> {
-        return repositoryRoom.getAll()
-    }
-
-    suspend fun deleteCity(cityName: String) {
-        return repositoryRoom.deleteCity(cityName)
-    }
-
-    suspend fun getCount(): LiveData<Int> {
-        return repositoryRoom.getCount()
+    fun deleteCity(cityName: String) {
+        viewModelScope.launch {
+            repositoryRoom.deleteCity(cityName)
+        }
     }
 }

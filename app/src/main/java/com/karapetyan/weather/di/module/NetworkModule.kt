@@ -1,10 +1,10 @@
 package com.karapetyan.weather.di.module
 
+import com.karapetyan.weather.BuildConfig
 import com.karapetyan.weather.BuildConfig.BASE_URL
 import com.karapetyan.weather.data.api.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.BuildConfig
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

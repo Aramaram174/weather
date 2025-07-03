@@ -1,20 +1,19 @@
 package com.karapetyan.weather.ui.pager
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.karapetyan.weather.data.repository.WeatherRepositoryRoom
+import androidx.lifecycle.asFlow
+import androidx.lifecycle.viewModelScope
 import com.karapetyan.weather.data.network.model.WeatherData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlin.coroutines.CoroutineContext
+import com.karapetyan.weather.data.repository.WeatherRepositoryRoom
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 
 class PagerViewModel(
-    private val repositoryRoom: WeatherRepositoryRoom
-) : ViewModel(), CoroutineScope {
+    repositoryRoom: WeatherRepositoryRoom
+) : ViewModel() {
 
-    override val coroutineContext: CoroutineContext = Dispatchers.Main
-
-    suspend fun getAllCities(): LiveData<MutableList<WeatherData>> {
-        return repositoryRoom.getAll()
-    }
+    val cityList: StateFlow<List<WeatherData>> =
+        repositoryRoom.getAllCities()
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 }
