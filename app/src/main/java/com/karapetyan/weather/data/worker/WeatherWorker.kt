@@ -10,7 +10,6 @@ import androidx.work.WorkerParameters
 import com.karapetyan.weather.data.repository.NetworkRepository
 import com.karapetyan.weather.data.repository.WeatherRepositoryRoom
 import java.util.concurrent.TimeUnit
-import com.karapetyan.weather.data.repository.Result
 
 class WeatherWorker(context: Context, workerParams: WorkerParameters,
                        private val networkRepository: NetworkRepository,
@@ -23,11 +22,11 @@ class WeatherWorker(context: Context, workerParams: WorkerParameters,
     override suspend fun doWork(): Result {
         return try {
             for (name in repositoryRoom.getAllCityNames()) {
-                when (val result = networkRepository.getWeatherData(name)) {
-                    is com.karapetyan.weather.data.repository.Result.Success -> {
-                        repositoryRoom.updateCity(result.data)
-                    }
-                    is Result.Error -> {}
+                val result = networkRepository.getWeatherData(name)
+                result.onSuccess {
+                    repositoryRoom.updateCity(it)
+                }.onFailure {
+                    // show error toast
                 }
             }
 

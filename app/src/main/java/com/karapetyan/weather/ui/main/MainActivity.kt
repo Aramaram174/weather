@@ -1,9 +1,13 @@
 package com.karapetyan.weather.ui.main
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowInsets
+import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.karapetyan.weather.R
@@ -17,6 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.Calendar
 import kotlin.coroutines.CoroutineContext
 import androidx.core.graphics.toColorInt
+import androidx.core.view.WindowCompat
 import com.karapetyan.weather.utils.InternetConnectionLiveData
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
@@ -27,8 +32,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var internetConnectionLiveData: InternetConnectionLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        hideSystemUI()
         super.onCreate(savedInstanceState)
+        hideSystemBars(this)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding?.lifecycleOwner = this
@@ -49,24 +54,27 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        hideSystemUI()
-    }
+    fun hideSystemBars(activity: Activity) {
+        val window = activity.window
 
-    private fun hideSystemUI() {
-        val flags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        window.decorView.systemUiVisibility = flags
-        val decorView = window.decorView
-        decorView.setOnSystemUiVisibilityChangeListener { visibility: Int ->
-            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
-                decorView.systemUiVisibility = flags
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+
+            val controller = window.insetsController
+            controller?.let {
+                it.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                it.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
+        } else {
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    )
         }
     }
 
