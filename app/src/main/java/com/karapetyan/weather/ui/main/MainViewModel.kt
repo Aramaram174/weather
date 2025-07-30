@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.karapetyan.weather.data.network.model.WeatherData
 import com.karapetyan.weather.data.repository.NetworkRepository
-import com.karapetyan.weather.data.repository.Result
 import com.karapetyan.weather.data.repository.WeatherRepositoryRoom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+import kotlin.onSuccess
 
 class MainViewModel(
     private val networkRepository: NetworkRepository,
@@ -43,11 +43,11 @@ class MainViewModel(
     private suspend fun updateAllCityWeathers() {
         for (name in getAllCityNames()) {
             viewModelScope.launch {
-                when (val result = networkRepository.getWeatherData(name)) {
-                    is Result.Success -> {
-                        updateCity(result.data)
-                    }
-                    is Result.Error -> {}
+                val result = networkRepository.getWeatherData(name)
+                result.onSuccess {
+                    updateCity(it)
+                }.onFailure {
+                    // show error toast
                 }
             }
         }

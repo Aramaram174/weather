@@ -3,8 +3,6 @@ package com.karapetyan.weather.utils
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.os.Build
 import androidx.lifecycle.LiveData
 
 class InternetConnectionLiveData(context: Context) : LiveData<Boolean>() {
@@ -26,12 +24,7 @@ class InternetConnectionLiveData(context: Context) : LiveData<Boolean>() {
         super.onActive()
         updateConnection()
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(networkCallback)
-        } else {
-            val networkRequest = NetworkRequest.Builder().build()
-            connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
-        }
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
     }
 
     override fun onInactive() {

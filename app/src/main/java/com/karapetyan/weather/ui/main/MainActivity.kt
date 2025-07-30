@@ -10,10 +10,10 @@ import com.karapetyan.weather.ui.search.SearchViewModel
 import com.karapetyan.weather.ui.theme.WeatherAppTheme
 import com.karapetyan.weather.utils.hideSystemUI
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import androidx.activity.enableEdgeToEdge
 
 class MainActivity : AppCompatActivity() {
 
-    private val mainViewModel: MainViewModel by viewModel()
     private val pagerViewModel: PagerViewModel by viewModel()
     private val weatherCityViewModel: WeatherCityViewModel by viewModel()
     private val cityListViewModel: CityListViewModel by viewModel()
@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hideSystemUI(this)
+
+        enableEdgeToEdge()
 
         setContent {
             WeatherAppTheme {
@@ -33,10 +34,6 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
         hideSystemUI(this)
     }
 }
