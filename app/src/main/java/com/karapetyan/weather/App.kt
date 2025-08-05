@@ -7,6 +7,7 @@ import org.koin.core.context.startKoin
 
 import androidx.work.Configuration
 import androidx.work.WorkerFactory
+import com.google.android.gms.ads.MobileAds
 import org.koin.core.context.GlobalContext.get
 
 class App : Application(), Configuration.Provider {
@@ -19,7 +20,7 @@ class App : Application(), Configuration.Provider {
             androidContext(this@App)
             modules(listOf(appModule, repoModule, viewModelModule, databaseModule, workerModule))
         }
-
+        MobileAds.initialize(this) {}
         workerFactory = get().get()
     }
 

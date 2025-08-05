@@ -34,7 +34,11 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.karapetyan.weather.R
 import com.karapetyan.weather.data.network.model.WeatherData
 import com.karapetyan.weather.utils.DateUtils
@@ -87,6 +91,7 @@ fun WeatherCityScreen(cityName: String, viewModel: WeatherCityViewModel? = null)
                 WeatherDetailsSection(weatherData!!)
             }
         }
+        BannerAdView()
     }
 }
 
@@ -243,4 +248,17 @@ fun DetailRow(label: String, value: String, icon: Int) {
             )
         }
     }
+}
+
+@Composable
+fun BannerAdView() {
+    AndroidView(
+        factory = { context ->
+            AdView(context).apply {
+                setAdSize(AdSize.BANNER)
+                adUnitId = "ca-app-pub-3940256099942544/6300978111"
+                loadAd(AdRequest.Builder().build())
+            }
+        }
+    )
 }
