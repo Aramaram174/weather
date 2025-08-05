@@ -1,12 +1,12 @@
 package com.karapetyan.weather.di.module
 
-import com.karapetyan.weather.BuildConfig
 import com.karapetyan.weather.data.api.ApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.karapetyan.weather.BuildConfig
 
 val appModule = module {
     single { provideOkHttpClient() }

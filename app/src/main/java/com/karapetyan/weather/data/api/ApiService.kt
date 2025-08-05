@@ -1,5 +1,6 @@
 package com.karapetyan.weather.data.api
 
+import com.google.gson.JsonObject
 import com.karapetyan.weather.data.network.model.WeatherData
 import retrofit2.http.GET
 import retrofit2.http.Query
